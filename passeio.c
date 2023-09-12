@@ -10,6 +10,28 @@ void computa_passeios(bool **tabuleiro) {
     int abertos = 0;
 
     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
     
     
@@ -21,6 +43,9 @@ void computa_passeios(bool **tabuleiro) {
     printf("%d\n%d\n", fechados, abertos);
     return;
 }
+
+
+
 
 int main(int argc, char* argv[]) {
     ///////////////////////////////////////////////////////////
@@ -41,6 +66,8 @@ int main(int argc, char* argv[]) {
 
     return (1);
 }
+
+
 
 bool **ler_instancia(int instancia_num) {
     int n, m;
