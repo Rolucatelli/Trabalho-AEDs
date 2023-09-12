@@ -6,8 +6,24 @@
 
 // Implementar o trabalho aqui
 void computa_passeios(bool **tabuleiro) {
-    int fechados = 0;
-    int abertos = 0;
+    int fechados = 0, abertos = 0;
+    int run = 0;
+    bool possivel = 1;
+
+    
+    while(possivel)
+    {
+        //Considerando que o Cavalo começe o jogo na casa a1 ou no [0][0]
+        tabuleiro[0][0] = 1;
+
+
+
+        break;
+    }
+    
+    
+    
+
 
     
 
