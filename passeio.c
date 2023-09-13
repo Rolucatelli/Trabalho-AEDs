@@ -7,8 +7,7 @@
 // Implementar o trabalho aqui
 void computa_passeios(bool **tabuleiro) {
     int fechados = 0, abertos = 0;
-    int run = 0;
-    bool possivel = 1;
+    bool possivel = true;
 
     
     while(possivel)
