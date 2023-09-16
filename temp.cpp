@@ -5,9 +5,9 @@ using namespace std;
 
 const int Size = 8;
 int dx[Size + 1] = {0, 2, 1, -1, -2, -2, -1, 1, 2},
-              dy[Size + 1] = {0, 1, 2, 2, 1, -1, -2, -2, -1},
-              h[Size + 1][Size + 1],
-              n;
+    dy[Size + 1] = {0, 1, 2, 2, 1, -1, -2, -2, -1},
+    h[Size + 1][Size + 1],
+    n;
 
 //----------------------------------------
 void Print()
