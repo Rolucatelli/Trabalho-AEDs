@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include "passeio.h"
 
-bool movPossivel(int *x, int *y, int n, int m, bool **tabuleiro, int tabuleiroInt)
+bool movPossivel(int *x, int *y, int n, int m, bool **tabuleiro)
 {
     n = m = 8;
     bool possivel = false;
@@ -17,7 +17,6 @@ bool movPossivel(int *x, int *y, int n, int m, bool **tabuleiro, int tabuleiroIn
         if (0 <= u && u < n && 0 <= v && v < m && !tabuleiro[u][v])
         {
             tabuleiro[u][v] = true;
-            tabuleiroInt[u][v] = i; //Mudar i para a quantidade de movimentos que o cavalo fez nesse passeio
 
             // Alterando a posição do cavalo
             *x = u;
@@ -39,19 +38,17 @@ void computa_passeios(bool **tabuleiro, int n, int m)
     int x = 0, y = 0;
     int fechados = 0, abertos = 0;
     // bool possivel = true;
-    int tabuleiroInt[n][m];
-
-    for (int i = 0; i < n; i++)
-        for (int j = 0; j < m; j++)
-            tabuleiroInt[i][j] = 0;
 
     // Considerando que o Cavalo começe o jogo na casa a1 ou no [0][0]
-    tabuleiro[0][0] = 1;
-    tabuleiroInt[0][0] = 1;
+    tabuleiro[0][0] = true;
+    
 
-    while (movPossivel(&x, &y, n, m, tabuleiro, tabuleiroInt))
+    while (movPossivel(&x, &y, n, m, tabuleiro))
     {
-        if (!movPossivel(&x, &y, n, m, tabuleiro, tabuleiroInt))
+
+        //Implementar uma pilha com o histórico de movimentos do cavalo, para quando não tiver movimentos possíveis, voltar a pilha até ter algum outro movimento.
+
+        if (!movPossivel(&x, &y, n, m, tabuleiro))
         {
             break;
         }
@@ -65,7 +62,7 @@ int main(int argc, char *argv[])
 {
     ///////////////////////////////////////////////////////////
     /////////////////// Leitor de instâncias //////////////////
-    ///////////////// Não deve ser modificado /////////////////
+    ///////////////// void Não deve ser modificado /////////////////
     ///////////////////////////////////////////////////////////
     int instancia_num = -1;
     instancia_num = atoi(argv[1]);
