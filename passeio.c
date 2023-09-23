@@ -4,7 +4,17 @@
 #include <stdbool.h>
 #include "passeio.h"
 
-bool movPossivel(int *x, int *y, int n, int m, bool **tabuleiro, int tabuleiroInt)
+bool tabuleiroNaoCheio(bool **tabuleiro, int n, int m)
+{
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < m; j++)
+            if (!tabuleiro[i][j])
+            {
+                return true;
+            }
+}
+
+bool movPossivel(int *x, int *y, int n, int m, bool **tabuleiro)
 {
     n = m = 8;
     bool possivel = false;
@@ -17,7 +27,6 @@ bool movPossivel(int *x, int *y, int n, int m, bool **tabuleiro, int tabuleiroIn
         if (0 <= u && u < n && 0 <= v && v < m && !tabuleiro[u][v])
         {
             tabuleiro[u][v] = true;
-            tabuleiroInt[u][v] = i; //Mudar i para a quantidade de movimentos que o cavalo fez nesse passeio
 
             // Alterando a posição do cavalo
             *x = u;
@@ -39,21 +48,23 @@ void computa_passeios(bool **tabuleiro, int n, int m)
     int x = 0, y = 0;
     int fechados = 0, abertos = 0;
     // bool possivel = true;
-    int tabuleiroInt[n][m];
-
-    for (int i = 0; i < n; i++)
-        for (int j = 0; j < m; j++)
-            tabuleiroInt[i][j] = 0;
+    bool movPos = movPossivel(&x, &y, n, m, tabuleiro);
+    bool passeioCompleto = false;
 
     // Considerando que o Cavalo começe o jogo na casa a1 ou no [0][0]
     tabuleiro[0][0] = 1;
-    tabuleiroInt[0][0] = 1;
 
-    while (movPossivel(&x, &y, n, m, tabuleiro, tabuleiroInt))
+    while (movPos || tabuleiroNaoCheio(tabuleiro, n, m))
     {
-        if (!movPossivel(&x, &y, n, m, tabuleiro, tabuleiroInt))
+        // Implementar uma pilha com o histórico de movimentos do cavalo
+        if (movPos)
         {
-            break;
+            movPos = movPossivel(&x, &y, n, m, tabuleiro);
+        }
+        else
+        {
+            // tirar um item da pilha
+            movPos = movPossivel(&x, &y, n, m, tabuleiro);
         }
     }
 
