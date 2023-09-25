@@ -4,6 +4,29 @@
 #include <stdbool.h>
 #include "passeio.h"
 
+void inserePilha(pilha *historico, pilha no, int *topo)
+{
+
+    if (*topo == -1)
+    {
+        *topo = 0;
+        historico[0] = no;
+    }
+    else
+    {
+        historico[*topo + 1] = no;
+        (*topo)++;
+    }
+}
+
+void removePilha(pilha *historico, int *topo)
+{
+    if (*topo != -1)
+    {
+        (*topo)--;
+    }
+}
+
 bool tabuleiroNaoCheio(bool **tabuleiro, int n, int m)
 {
     for (int i = 0; i < n; i++)
@@ -12,21 +35,24 @@ bool tabuleiroNaoCheio(bool **tabuleiro, int n, int m)
             {
                 return true;
             }
+    return false;
 }
 
-bool movPossivel(int *x, int *y, int n, int m, bool **tabuleiro)
+bool movPossivel(int *x, int *y, int n, int m, bool **tabuleiro, pilha *historico, int *topo)
 {
-    n = m = 8;
     bool possivel = false;
+    pilha no;
     int newX[8] = {2, 1, -1, -2, -2, -1, 1, 2};
     int newY[8] = {1, 2, 2, 1, -1, -2, -2, -1};
 
-    for (int i = 0; i < 8; i++)
+    for (int i = historico[*topo].i; i < 8; i++)
     {
         int u = *x + newX[i], v = *y + newY[i];
         if (0 <= u && u < n && 0 <= v && v < m && !tabuleiro[u][v])
         {
             tabuleiro[u][v] = true;
+            no.i = i;
+            inserePilha(historico, no, topo);
 
             // Alterando a posição do cavalo
             *x = u;
@@ -45,26 +71,38 @@ bool movPossivel(int *x, int *y, int n, int m, bool **tabuleiro)
 // Implementar o trabalho aqui
 void computa_passeios(bool **tabuleiro, int n, int m)
 {
+    pilha historico[n * m];
+    historico[0].i = 0;
+    int topo = 0;
+
     int x = 0, y = 0;
     int fechados = 0, abertos = 0;
-    // bool possivel = true;
-    bool movPos = movPossivel(&x, &y, n, m, tabuleiro);
+
+    bool movPos = movPossivel(&x, &y, n, m, tabuleiro, historico, &topo);
     bool passeioCompleto = false;
 
     // Considerando que o Cavalo começe o jogo na casa a1 ou no [0][0]
     tabuleiro[0][0] = 1;
 
-    while (movPos || tabuleiroNaoCheio(tabuleiro, n, m))
+    while (historico[0].i < 8)
     {
-        // Implementar uma pilha com o histórico de movimentos do cavalo
-        if (movPos)
+        while (movPos || tabuleiroNaoCheio(tabuleiro, n, m))
         {
-            movPos = movPossivel(&x, &y, n, m, tabuleiro);
+            // Implementar uma pilha com o histórico de movimentos do cavalo
+            if (movPos)
+            {
+                movPos = movPossivel(&x, &y, n, m, tabuleiro, historico, &topo);
+            }
+            else
+            {
+                removePilha(historico, &topo);
+            }
         }
-        else
-        {
-            // tirar um item da pilha
-            movPos = movPossivel(&x, &y, n, m, tabuleiro);
+
+        if(x == 0 && y == 0){
+            fechados++;
+        }else{
+            abertos++;
         }
     }
 
