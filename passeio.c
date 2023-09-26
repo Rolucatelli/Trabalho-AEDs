@@ -4,27 +4,25 @@
 #include <stdbool.h>
 #include "passeio.h"
 
-void inserePilha(pilha *historico, pilha no, int *topo)
+bool allTheMovs(int historico[], int n, int m)
 {
-
-    if (*topo == -1)
-    {
-        *topo = 0;
-        historico[0] = no;
-    }
-    else
-    {
-        historico[*topo + 1] = no;
-        (*topo)++;
-    }
+    for (int i = 0; i < n * m; i++)
+        if (historico[i] != 7)
+            return false;
+    return true;
 }
 
-void removePilha(pilha *historico, int *topo)
+void voltarMov(bool **tabuleiro, int historico[], int *ultimoMov, int *x, int *y)
 {
-    if (*topo != -1)
-    {
-        (*topo)--;
-    }
+    int newX[8] = {2, 1, -1, -2, -2, -1, 1, 2};
+    int newY[8] = {1, 2, 2, 1, -1, -2, -2, -1};
+
+    historico[*ultimoMov] = 0;
+    tabuleiro[*x][*y] = false;
+    (*ultimoMov)--;
+    *x -= newX[historico[*ultimoMov]];
+    *y -= newY[historico[*ultimoMov]];
+    historico[*ultimoMov]++;
 }
 
 bool tabuleiroNaoCheio(bool **tabuleiro, int n, int m)
@@ -32,77 +30,82 @@ bool tabuleiroNaoCheio(bool **tabuleiro, int n, int m)
     for (int i = 0; i < n; i++)
         for (int j = 0; j < m; j++)
             if (!tabuleiro[i][j])
-            {
                 return true;
-            }
     return false;
 }
 
-bool movPossivel(int *x, int *y, int n, int m, bool **tabuleiro, pilha *historico, int *topo)
+bool movPossivel(int *x, int *y, int n, int m, bool **tabuleiro, int historico[], int *ultimoMov)
 {
-    bool possivel = false;
-    pilha no;
+    // pilha no;
     int newX[8] = {2, 1, -1, -2, -2, -1, 1, 2};
     int newY[8] = {1, 2, 2, 1, -1, -2, -2, -1};
 
-    for (int i = historico[*topo].i; i < 8; i++)
+    for (int i = historico[*ultimoMov]; i < 8; i++)
     {
         int u = *x + newX[i], v = *y + newY[i];
+        historico[*ultimoMov] = i;
         if (0 <= u && u < n && 0 <= v && v < m && !tabuleiro[u][v])
         {
             tabuleiro[u][v] = true;
-            no.i = i;
-            inserePilha(historico, no, topo);
+            // no.i = i;
+            *ultimoMov += 1;
 
             // Alterando a posição do cavalo
             *x = u;
             *y = v;
 
-            // Apenas para sair do laço for
-            i = 8;
-
             // Indicando que o movimento é possível
-            possivel = true;
+            return true;
         }
     }
-    return possivel;
+    return false;
 }
 
 // Implementar o trabalho aqui
 void computa_passeios(bool **tabuleiro, int n, int m)
 {
-    pilha historico[n * m];
-    historico[0].i = 0;
-    int topo = 0;
+    // pilha historico[n * m];
+    // historico[0].i = 0;
+    // int topo = 0;
+
+    int historico[(n * m)];
+    int ultimoMov = 0;
+    for (int i = 0; i < m * n; i++)
+        historico[i] = 0;
 
     int x = 0, y = 0;
     int fechados = 0, abertos = 0;
 
-    bool movPos = movPossivel(&x, &y, n, m, tabuleiro, historico, &topo);
-    bool passeioCompleto = false;
-
     // Considerando que o Cavalo começe o jogo na casa a1 ou no [0][0]
-    tabuleiro[0][0] = 1;
+    tabuleiro[0][0] = true;
 
-    while (historico[0].i < 8)
+    bool movPos = movPossivel(&x, &y, n, m, tabuleiro, historico, &ultimoMov);
+
+    while (historico[0] != 0)
     {
         while (movPos || tabuleiroNaoCheio(tabuleiro, n, m))
         {
             // Implementar uma pilha com o histórico de movimentos do cavalo
             if (movPos)
             {
-                movPos = movPossivel(&x, &y, n, m, tabuleiro, historico, &topo);
+                movPos = movPossivel(&x, &y, n, m, tabuleiro, historico, &ultimoMov);
             }
             else
             {
-                removePilha(historico, &topo);
+                voltarMov(tabuleiro, historico, &ultimoMov, &x, &y);
+                movPos = movPossivel(&x, &y, n, m, tabuleiro, historico, &ultimoMov);
             }
         }
 
-        if(x == 0 && y == 0){
+        if (x == 0 && y == 0)
+        {
             fechados++;
-        }else{
+            voltarMov(tabuleiro, historico, &ultimoMov, &x, &y);
+        }
+        else
+        {
             abertos++;
+            voltarMov(tabuleiro, historico, &ultimoMov, &x, &y);
         }
     }
 
@@ -129,6 +132,8 @@ int main(int argc, char *argv[])
 
     // Tabuleiro do jogo
     bool **tabuleiro = ler_instancia(instancia_num, &n, &m);
+
+    // printf("\n%d\n%d", n, m);
 
     computa_passeios(tabuleiro, n, m);
 
