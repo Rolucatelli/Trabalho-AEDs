@@ -14,6 +14,8 @@
 
 bool allTheMovs(int historico[], int n, int m);
 
+bool tabuleiroVazio(bool **tabuleiro, int n, int m);
+
 
 
 bool **ler_instancia(int instancia_num, int *n, int *m);
