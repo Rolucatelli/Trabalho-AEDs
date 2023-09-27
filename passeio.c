@@ -12,23 +12,6 @@ bool historicoZerado(int historico[], int n, int m)
     return true;
 }
 
-void voltarMov(bool **tabuleiro, int historico[], int *ultimoMov, int *x, int *y)
-{
-    int newX[8] = {2, 1, -1, -2, -2, -1, 1, 2};
-    int newY[8] = {1, 2, 2, 1, -1, -2, -2, -1};
-
-    historico[*ultimoMov] = 0;
-    tabuleiro[*x][*y] = false;
-    (*ultimoMov)--;
-    if (*ultimoMov < 0)
-    {
-        return;
-    }
-    *x -= newX[historico[*ultimoMov]];
-    *y -= newY[historico[*ultimoMov]];
-    historico[*ultimoMov]++;
-}
-
 bool tabuleiroNaoCheio(bool **tabuleiro, int n, int m)
 {
     for (int i = 0; i < n; i++)
@@ -47,88 +30,112 @@ bool tabuleiroVazio(bool **tabuleiro, int n, int m)
     return true;
 }
 
-bool movPossivel(int *x, int *y, int n, int m, bool **tabuleiro, int historico[], int *ultimoMov)
+bool tabuleiroCheio(bool **tabuleiro, int n, int m)
 {
-    // pilha no;
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < m; j++)
+            if (!tabuleiro[i][j])
+                return false;
+    return true;
+}
+
+void voltarMov(bool **tabuleiro, int historico[], int *ultimoMov, int *x, int *y)
+{
     int newX[8] = {2, 1, -1, -2, -2, -1, 1, 2};
     int newY[8] = {1, 2, 2, 1, -1, -2, -2, -1};
 
-    if (*ultimoMov < 0)
-    {
-        int l = 7;
-        l++;
-    }
-    
+    historico[*ultimoMov] = 0;
+    tabuleiro[*x][*y] = false;
+    (*ultimoMov)--;
+    *x -= newX[historico[*ultimoMov]];
+    *y -= newY[historico[*ultimoMov]];
+    historico[*ultimoMov]++;
+}
+
+void executaMov(int *x, int *y, bool **tabuleiro, int *historico, int *ultimoMov)
+{
+
+    int newX[8] = {2, 1, -1, -2, -2, -1, 1, 2};
+    int newY[8] = {1, 2, 2, 1, -1, -2, -2, -1};
+
+    *x += newX[historico[*ultimoMov]];
+    *y += newY[historico[*ultimoMov]];
+    tabuleiro[*x][*y] = true;
+    *ultimoMov += 1;
+}
+
+bool movPossivel(int *x, int *y, int n, int m, bool **tabuleiro, int *historico, int *ultimoMov)
+{
+
+    int newX[8] = {2, 1, -1, -2, -2, -1, 1, 2};
+    int newY[8] = {1, 2, 2, 1, -1, -2, -2, -1};
+
     for (int i = historico[*ultimoMov]; i < 8; i++)
     {
-        int u = *x + newX[i], v = *y + newY[i];
+        // Essas variáveis representam um possível pŕoximo movimento
+        int u = *x + newX[i];
+        int v = *y + newY[i];
+
+        // Isso armazena qual movimento será testado
         historico[*ultimoMov] = i;
+
+        // Isso verifica se esse próximo movimento está dentro do tabuleiro ou se o cavalo ja não passou por lá
         if (0 <= u && u < n && 0 <= v && v < m && !tabuleiro[u][v])
         {
-            tabuleiro[u][v] = true;
-            *ultimoMov += 1;
-
-            // Alterando a posição do cavalo
-            *x = u;
-            *y = v;
-
-            // Indicando que o movimento é possível
             return true;
-        }
+        }  
     }
 
-    if (historico[30] == 7)
-    {
-        historico[30] = 7;
-    }
     return false;
 }
 
 // Implementar o trabalho aqui
 void computa_passeios(bool **tabuleiro, int n, int m)
 {
-    // pilha historico[n * m];
-    // historico[0].i = 0;
-    // int topo = 0;
-
-    int historico[(n * m) + 1];
-    int ultimoMov = 0;
-    for (int i = 0; i < (m * n) + 1; i++)
-        historico[i] = 0;
-
-    int x = 0, y = 0;
+    // Definindo variáveis para contar os passeios
     int fechados = 0, abertos = 0;
 
-    // Considerando que o Cavalo começe o jogo na casa a1 ou no [0][0]
+    // A posição do cavalo, que começam zeradas, pois ele está no canto do tabuleiro
+    int x = 0, y = 0;
+    tabuleiro[0][0] = true;
 
-    bool movPos = movPossivel(&x, &y, n, m, tabuleiro, historico, &ultimoMov);
+    // Esse vetor registra todos os movimentos feitos pelo passeio
+    int historico[n * m];
 
-    while (!historicoZerado(historico, n, m) || movPos)
+    // Isso será o índice do vetor acima, que indicará qual foi o ultimo movimento feito pelo cavalo
+    int ultimoMov = 0;
+
+    // Preenchendo o vetor com 0 para, futuramente, testar todos os movimentos
+    for (int i = 0; i < n*m; i++)
     {
-        while ((movPos || tabuleiroNaoCheio(tabuleiro, n, m)) && ultimoMov >= 0)
+        historico[i] = 0;
+    }
+
+    while (!historicoZerado(historico, n, m) || tabuleiro[0][0]) // Enquanto todos os caminhos possíveis ainda não foram executados
+    {
+        while (movPossivel(&x, &y, n, m, tabuleiro, historico, &ultimoMov) || tabuleiroNaoCheio(tabuleiro, n, m))
         {
-            // Implementar uma pilha com o histórico de movimentos do cavalo
-            if (movPos)
+            if (movPossivel(&x, &y, n, m, tabuleiro, historico, &ultimoMov))
             {
-                movPos = movPossivel(&x, &y, n, m, tabuleiro, historico, &ultimoMov);
+                executaMov(&x, &y, tabuleiro, historico, &ultimoMov);
             }
             else
             {
                 voltarMov(tabuleiro, historico, &ultimoMov, &x, &y);
-                movPos = movPossivel(&x, &y, n, m, tabuleiro, historico, &ultimoMov);
             }
         }
 
-        if (x == 0 && y == 0)
+        if (tabuleiroCheio(tabuleiro, n, m))
         {
-            fechados++;
+            if (x == 0 && y == 0)
+            {
+                fechados++;
+            }
+            else
+            {
+                abertos++;
+            }
         }
-        else
-        {
-            abertos++;
-        }
-        voltarMov(tabuleiro, historico, &ultimoMov, &x, &y);
-        movPos = movPossivel(&x, &y, n, m, tabuleiro, historico, &ultimoMov);
     }
 
     printf("%d\n%d\n", fechados, abertos);
@@ -141,13 +148,13 @@ int main(int argc, char *argv[])
     /////////////////// Leitor de instâncias //////////////////
     ///////////////// Não deve ser modificado /////////////////
     ///////////////////////////////////////////////////////////
-    int instancia_num = -1;
-    instancia_num = atoi(argv[1]);
-    if (instancia_num <= 0 || instancia_num > 20)
-    {
-        printf("Para executar o código, digite ./passeio x\nonde x é um número entre 1 e 20 que simboliza a instância utilizada\n");
-        exit(0);
-    }
+    int instancia_num = 1;
+    // instancia_num = atoi(argv[1]);
+    // if (instancia_num <= 0 || instancia_num > 20)
+    // {
+    //     printf("Para executar o código, digite ./passeio x\nonde x é um número entre 1 e 20 que simboliza a instância utilizada\n");
+    //     exit(0);
+    // }
 
     // Criando variáveis que representam as dimensoes do tabuleiro
     int n, m;

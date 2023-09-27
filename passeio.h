@@ -3,18 +3,13 @@
 
 // Implementar qualquer struct que for necessária aqui
 
-// typedef struct pilha_{
-//     int i;
-//     int x;
-//     int y;
-// } pilha;
-
-// void inserePilha(pilha *historico, pilha no, int *topo);
-// void removePilha(int *topo);
-
 bool historicoZerado(int historico[], int n, int m);
 
 bool tabuleiroVazio(bool **tabuleiro, int n, int m);
+
+void executaMov(int *x, int *y, bool **tabuleiro, int *historico, int *ultimoMov);
+
+bool tabuleiroCheio(bool **tabuleiro, int n, int m);
 
 
 
