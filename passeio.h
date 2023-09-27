@@ -12,7 +12,7 @@
 // void inserePilha(pilha *historico, pilha no, int *topo);
 // void removePilha(int *topo);
 
-bool allTheMovs(int historico[], int n, int m);
+bool historicoZerado(int historico[], int n, int m);
 
 bool tabuleiroVazio(bool **tabuleiro, int n, int m);
 
