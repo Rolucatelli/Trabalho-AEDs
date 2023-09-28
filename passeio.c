@@ -79,7 +79,7 @@ bool movPossivel(int *x, int *y, int n, int m, bool **tabuleiro, int *historico,
         // Isso armazena qual movimento será testado
         historico[*ultimoMov] = i;
 
-        // Isso verifica se esse próximo movimento está dentro do tabuleiro ou se o cavalo ja não passou por lá
+        // Isso verifica se esse próximo movimento está dentro do tabuleiro e se o cavalo ja não passou por lá
         if (0 <= u && u < n && 0 <= v && v < m && !tabuleiro[u][v])
         {
             return true;
