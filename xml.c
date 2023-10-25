@@ -12,23 +12,34 @@
 +-------------------------------------------------------------+
 */
 
-
 #include <stdio.h>
 #include <stdlib.h>
 
+// Definindo string como um vetor de char
 typedef char *string;
+
+// Definindo um nó
 typedef struct no_
 {
     string info;
     struct no *prox;
 } no;
 
+/*
+    Essa função insere um nó na pilha
+    @param **topo: é o ponteiro do topo da pilha
+    @param *novoNo: é o novo nó a ser inserido na pilha
+*/
 void inserir(no **topo, no *novoNo)
 {
     novoNo->prox = *topo;
     *topo = novoNo;
 }
 
+/*
+    Essa função remove o último nó da pilha
+    @param **topo: é o topo da pilha
+*/
 no *remover(no **topo)
 {
     if (*topo != NULL)
@@ -40,7 +51,12 @@ no *remover(no **topo)
     return NULL;
 }
 
-int tamString(string texto){
+/*
+    Essa função verifica e retorna o tamanho de uma string
+    @param texto: é a string a qual será verificada o tamanho
+*/
+int tamString(string texto)
+{
     int i = 0;
     while (texto[i] != '\0')
     {
@@ -49,7 +65,13 @@ int tamString(string texto){
     return i;
 }
 
-string concatena(string string1, string string2){
+/*
+    Essa função junta duas strings em uma
+    @param string1: é a primeira string, ou seja, o comeco da nova string
+    @param string2: é a segunda string, ou seja, o fim da nova string
+*/
+string concatena(string string1, string string2)
+{
     int tam1 = tamString(string1);
     int tam2 = tamString(string2);
     int tam3 = tam1 + tam2;
@@ -70,36 +92,27 @@ string concatena(string string1, string string2){
     return string3;
 }
 
-string removePrimeiroChar(string string1){
+/*
+    Essa função remove o primeiro caractere de uma string
+    @param string1: string que terá o primeiro caractere removido
+*/
+string removePrimeiroChar(string string1)
+{
     int tam1 = tamString(string1);
-    string string2 = malloc((tam1-1) * sizeof(char));
+    string string2 = malloc((tam1 - 1) * sizeof(char));
     int i = 1;
     while (i < tam1)
     {
-        string2[i-1] = string1[i];
+        string2[i - 1] = string1[i];
         i++;
     }
     return string2;
 }
 
-void imprimir(no *topo)
-{
-    if (topo == NULL)
-    {
-        printf("pilha vazia");
-        return;
-    }
-
-    printf("topo --> \n");
-    while (topo != NULL)
-    {
-        printf("\t%d", topo->info);
-        topo = topo->prox;
-        printf("\n \t| \n");
-    }
-    printf("\tNULL\n");
-}
-
+/*
+    Essa função cria um nó
+    @param info: o conteúdo do nó
+*/
 no *criarNo(string info)
 {
     no *novoNo = malloc(sizeof(no));
@@ -108,29 +121,43 @@ no *criarNo(string info)
     return novoNo;
 }
 
+// Essa função lê um arquivo
+FILE *lerArquivo()
+{
+    string nomeArquivo = malloc(100 * sizeof(char));
+    printf("Informe o nome do arquivo: ");
+    scanf("%s", nomeArquivo);
+    nomeArquivo = concatena("../", nomeArquivo);
+    return fopen(nomeArquivo, "r");
+}
+
 int main()
 {
     no *topo = NULL;
-    FILE *arquivo;
-    // string nomeArquivo;
-    // printf("Informe o nome do arquivo: ");
-    // scanf("%s", nomeArquivo);
-    // concatena("./", nomeArquivo);
-    arquivo = fopen("./entrada.xml", "r");
+    FILE *arquivo = lerArquivo();
     if (arquivo == NULL)
     {
-        printf("Erro ao abrir o arquivo\n");
+        printf("Erro ao abrir o arquivo!\n");
+        printf("Verifique se o nome do arquivo está correto e se ele está na mesma pasta do programa.\n");
+        printf("O nome do arquivo deve conter a extensão\n");
         return 1;
     }
-    
-    
-    
 
+    string linha = malloc(100 * sizeof(char));
+    int linhaAtual = 0;
 
-
+    //Enquanto o arquivo não termina
+    while (!feof(arquivo))
+    {
+        //Leio uma linha
+        fgets(linha, 100, arquivo);
+        //Aumento a contagem de linhas
+        linhaAtual++;
+        
+        
+    }
 
     fclose(arquivo);
-
 
     return 0;
 }
