@@ -221,7 +221,7 @@ FILE *lerArquivo()
     string nomeArquivo = malloc(100 * sizeof(char));
     printf("Informe o nome do arquivo: ");
     scanf("%s", nomeArquivo);
-    nomeArquivo = concatena("./", nomeArquivo); // Caso vá debugar o código, colocar "./" no lugar de "../"
+    nomeArquivo = concatena("../", nomeArquivo); // Caso vá debugar o código, colocar "./" no lugar de "../"
     return fopen(nomeArquivo, "r");
 }
 
@@ -240,6 +240,7 @@ int main()
 
     string linha = malloc(100 * sizeof(char));
     int linhaAtual = 0;
+    
 
     // Enquanto o arquivo não termina
     while (!feof(arquivo))
@@ -251,7 +252,6 @@ int main()
 
         while (contido(linha, ">"))
         {
-            // int tamLinha = tamString(linha);
             string tag = pegarTag(&linha);
             if (tag[0] != '/')
             {
@@ -279,10 +279,10 @@ int main()
             }
         }
     }
-
-    if (remover(&topo) != NULL)
+    no *temp = remover(&topo);
+    if (temp != NULL)
     {
-        printf("\n Erro na linha %d: uma tag foi aberta mas não foi fechada!", linhaAtual);
+        printf("\n Erro na linha %d: a tag <%s> não foi fechada!", linhaAtual, temp->info);
         return 1;
     }
 
