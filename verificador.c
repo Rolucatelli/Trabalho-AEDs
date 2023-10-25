@@ -107,7 +107,62 @@ string removePrimeiroChar(string string1)
         string2[i - 1] = string1[i];
         i++;
     }
+    string2[i - 1] = '\0';
     return string2;
+}
+
+/*
+    Essa função verifica se uma string está contida na outra (s2 dentro de s1)
+    @param s1: string que contém
+    @param s2: string contida
+*/
+int contido(string s1, string s2)
+{
+    int tam1 = tamString(s1);
+    int tam2 = tamString(s2);
+    for (int i = 0; i < tam1; i++)
+
+        if (s1[i] == s2[0])
+        {
+            int j = 0;
+            while (j < tam2)
+            {
+
+                if (s1[i + j] == s2[j])
+                {
+                    j++;
+                    if (j == tam2)
+                        return 1;
+                }
+                else
+                    break;
+            }
+        }
+
+    return 0;
+}
+
+/*
+    Essa função verifica se as strings são diferentes, retornando 1 caso sejam
+    @param s1: string 1
+    @param s2: string 2
+*/
+int stringsDiferentes(string s1, string s2)
+{
+    int tam1 = tamString(s1);
+    int tam2 = tamString(s2);
+    if (tam1 != tam2)
+    {
+        return 1;
+    }
+    for (int i = 0; i < tam1; i++)
+    {
+        if (s1[i] != s2[i])
+        {
+            return 1;
+        }
+    }
+    return 0;
 }
 
 /*
@@ -126,7 +181,8 @@ no *criarNo(string info)
     Essa função pega uma tag da linha e a remove
     @param *linha: um ponteiro para a linha porque a linha será alterada
 */
-string pegarTag(string *linha){
+string pegarTag(string *linha)
+{
     int tamLinha = tamString(*linha);
     int i = 0;
     int tamTag = 0;
@@ -140,9 +196,9 @@ string pegarTag(string *linha){
         i++;
         tamTag++;
     }
-    string tag = malloc(tamTag * sizeof(char));
+    string tag = malloc((tamTag + 1) * sizeof(char));
     int k = 0;
-    for (int j = i-tamTag; j < i; j++)
+    for (int j = i - tamTag; j < i; j++)
     {
         tag[k] = (*linha)[j];
         k++;
@@ -151,10 +207,11 @@ string pegarTag(string *linha){
     int j;
     for (j = 0; j < tamLinha - i; j++)
     {
-        (*linha)[j] = (*linha)[j+i];
+        (*linha)[j] = (*linha)[j + i];
     }
     (*linha)[j] = '\0';
-    
+    tag[k] = '\0';
+
     return tag;
 }
 
@@ -164,7 +221,7 @@ FILE *lerArquivo()
     string nomeArquivo = malloc(100 * sizeof(char));
     printf("Informe o nome do arquivo: ");
     scanf("%s", nomeArquivo);
-    nomeArquivo = concatena("../", nomeArquivo); // Caso vá debugar o código, colocar "./" no lugar de "../"
+    nomeArquivo = concatena("./", nomeArquivo); // Caso vá debugar o código, colocar "./" no lugar de "../"
     return fopen(nomeArquivo, "r");
 }
 
@@ -184,24 +241,52 @@ int main()
     string linha = malloc(100 * sizeof(char));
     int linhaAtual = 0;
 
-    //Enquanto o arquivo não termina
+    // Enquanto o arquivo não termina
     while (!feof(arquivo))
     {
-        //Leio uma linha
+        // Leio uma linha
         fgets(linha, 100, arquivo);
-        //Aumento a contagem de linhas
+        // Aumento a contagem de linhas
         linhaAtual++;
-        int tamLinha = tamString(linha);   
-        string tag = pegarTag(&linha);
-        if (tag[0] != "/")
+
+        while (contido(linha, ">"))
         {
-            inserir(&topo, criarNo(tag));
-        }else{
-            remover(&topo);
+            // int tamLinha = tamString(linha);
+            string tag = pegarTag(&linha);
+            if (tag[0] != '/')
+            {
+                inserir(&topo, criarNo(tag));
+            }
+            else
+            {
+                no *noRemovido = remover(&topo);
+                if (noRemovido == NULL)
+                {
+                    printf("\n Erro na linha %d: tag de fechamento sem tag de abertura correspondente!", linhaAtual);
+                    return 1;
+                }
+
+                string tagRemovida = noRemovido->info;
+                tag = removePrimeiroChar(tag);
+
+                if (stringsDiferentes(tag, tagRemovida))
+                {
+                    printf("\n Erro na linha %d: tag de fechamento sem tag de abertura correspondente!", linhaAtual);
+                    return 1;
+                }
+
+                free(noRemovido);
+            }
         }
-        
     }
-    printf("\n Fechando arquivo!");
+
+    if (remover(&topo) != NULL)
+    {
+        printf("\n Erro na linha %d: uma tag foi aberta mas não foi fechada!", linhaAtual);
+        return 1;
+    }
+
+    printf("\n O arquivo está correto!");
     fclose(arquivo);
 
     return 0;
