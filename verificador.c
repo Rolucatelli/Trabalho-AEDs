@@ -22,7 +22,7 @@ typedef char *string;
 typedef struct no_
 {
     string info;
-    struct no *prox;
+    struct no_ *prox;
 } no;
 
 /*
@@ -75,7 +75,7 @@ string concatena(string string1, string string2)
     int tam1 = tamString(string1);
     int tam2 = tamString(string2);
     int tam3 = tam1 + tam2;
-    string string3 = malloc(tam3 * sizeof(char));
+    string string3 = malloc((tam3) * sizeof(char));
     int i = 0;
     while (i < tam1)
     {
@@ -83,12 +83,13 @@ string concatena(string string1, string string2)
         i++;
     }
     int j = 0;
-    while (j < tam2)
+    while (j < tam2 + 1)
     {
         string3[i] = string2[j];
         i++;
         j++;
     }
+
     return string3;
 }
 
@@ -121,25 +122,62 @@ no *criarNo(string info)
     return novoNo;
 }
 
+/*
+    Essa função pega uma tag da linha e a remove
+    @param *linha: um ponteiro para a linha porque a linha será alterada
+*/
+string pegarTag(string *linha){
+    int tamLinha = tamString(*linha);
+    int i = 0;
+    int tamTag = 0;
+    while ((*linha)[i] != '<')
+    {
+        i++;
+    }
+    i++;
+    while ((*linha)[i] != '>')
+    {
+        i++;
+        tamTag++;
+    }
+    string tag = malloc(tamTag * sizeof(char));
+    int k = 0;
+    for (int j = i-tamTag; j < i; j++)
+    {
+        tag[k] = (*linha)[j];
+        k++;
+    }
+    i++;
+    int j;
+    for (j = 0; j < tamLinha - i; j++)
+    {
+        (*linha)[j] = (*linha)[j+i];
+    }
+    (*linha)[j] = '\0';
+    
+    return tag;
+}
+
 // Essa função lê um arquivo
 FILE *lerArquivo()
 {
     string nomeArquivo = malloc(100 * sizeof(char));
     printf("Informe o nome do arquivo: ");
     scanf("%s", nomeArquivo);
-    nomeArquivo = concatena("../", nomeArquivo);
+    nomeArquivo = concatena("../", nomeArquivo); // Caso vá debugar o código, colocar "./" no lugar de "../"
     return fopen(nomeArquivo, "r");
 }
 
 int main()
 {
     no *topo = NULL;
-    FILE *arquivo = lerArquivo();
+    FILE *arquivo;
+    arquivo = lerArquivo();
     if (arquivo == NULL)
     {
         printf("Erro ao abrir o arquivo!\n");
         printf("Verifique se o nome do arquivo está correto e se ele está na mesma pasta do programa.\n");
-        printf("O nome do arquivo deve conter a extensão\n");
+        printf("Lembrete: o nome do arquivo deve conter a extensão\n");
         return 1;
     }
 
@@ -153,10 +191,17 @@ int main()
         fgets(linha, 100, arquivo);
         //Aumento a contagem de linhas
         linhaAtual++;
-        
+        int tamLinha = tamString(linha);   
+        string tag = pegarTag(&linha);
+        if (tag[0] != "/")
+        {
+            inserir(&topo, criarNo(tag));
+        }else{
+            remover(&topo);
+        }
         
     }
-
+    printf("\n Fechando arquivo!");
     fclose(arquivo);
 
     return 0;
