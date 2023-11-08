@@ -72,24 +72,33 @@ int tamString(string texto)
 */
 string concatena(string string1, string string2)
 {
+    // Pegando o tamanho das strings
     int tam1 = tamString(string1);
     int tam2 = tamString(string2);
+
+    // Definindo o tamanho da nova string
     int tam3 = tam1 + tam2;
+
+    // Declarando a nova string
     string string3 = malloc((tam3) * sizeof(char));
+
     int i = 0;
+    // Adicionando a primeira string à nova string
     while (i < tam1)
     {
         string3[i] = string1[i];
         i++;
     }
+    
     int j = 0;
+    // Adicionando a segunda string à nova string
     while (j < tam2 + 1)
     {
         string3[i] = string2[j];
         i++;
         j++;
     }
-
+    // Retornando a nova string
     return string3;
 }
 
