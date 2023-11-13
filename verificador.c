@@ -195,18 +195,23 @@ string pegarTag(string *linha)
     int tamLinha = tamString(*linha);
     int i = 0;
     int tamTag = 0;
+    //Esse while encontra o caractere < na linha
     while ((*linha)[i] != '<')
     {
         i++;
     }
+    //Iteramos mais uma vez para pegar apenas o texto da tag
     i++;
+    //Iteramos para descobrir o tamanho da tag
     while ((*linha)[i] != '>')
     {
         i++;
         tamTag++;
     }
+    //Criamos a string de retorno
     string tag = malloc((tamTag + 1) * sizeof(char));
     int k = 0;
+    //Copio a tag na nova string
     for (int j = i - tamTag; j < i; j++)
     {
         tag[k] = (*linha)[j];
@@ -214,10 +219,12 @@ string pegarTag(string *linha)
     }
     i++;
     int j;
+    //Removo a tag da linha
     for (j = 0; j < tamLinha - i; j++)
     {
         (*linha)[j] = (*linha)[j + i];
     }
+    //Adiciono um caractere para indicar o fim da string
     (*linha)[j] = '\0';
     tag[k] = '\0';
 
@@ -259,35 +266,47 @@ int main()
         // Aumento a contagem de linhas
         linhaAtual++;
 
+        // Enquanto existir o caractere > na linha
         while (contido(linha, ">"))
         {
+            // Removo a tag da linha e coloco em outra variável
             string tag = pegarTag(&linha);
+            // Se a tag não for uma tag de fechamento
             if (tag[0] != '/')
             {
+                // Insiro ela na pilha
                 inserir(&topo, criarNo(tag));
             }
             else
             {
+                // Removo um nó da pilha
                 no *noRemovido = remover(&topo);
+                // Se a função remover retornou nulo, ou seja, não teve nó para remover
                 if (noRemovido == NULL)
                 {
                     printf("\n Erro na linha %d: tag de fechamento sem tag de abertura correspondente!", linhaAtual);
                     return 1;
                 }
 
+                // Defino a tag que eu removi da pilha
                 string tagRemovida = noRemovido->info;
+                // Como ela é uma tag de remoção, eu removo o caractere / dela para compará-la
                 tag = removePrimeiroChar(tag);
-
+                
+                // Compara a string removida da pilha com a tag lida do arquivo
                 if (stringsDiferentes(tag, tagRemovida))
                 {
                     printf("\n Erro na linha %d: tag de fechamento sem tag de abertura correspondente!", linhaAtual);
                     return 1;
                 }
 
+                // Libero o nó que removi da pilha
                 free(noRemovido);
             }
         }
     }
+
+    // Tento remover uma tag para, caso alguma tag não tenha sido fechada, ela estaria sobrando na pilha
     no *temp = remover(&topo);
     if (temp != NULL)
     {
