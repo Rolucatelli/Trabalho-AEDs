@@ -314,7 +314,7 @@ int main()
         return 1;
     }
 
-    printf("\n O arquivo está correto!");
+    printf("\n O arquivo está correto!\n");
     fclose(arquivo);
 
     return 0;
