@@ -1,0 +1,17 @@
+<alunos>
+    <aluno>
+        <nome>João</nome>
+        <matricula>123</matricula>
+        <curso>CC</curso>
+    </aluno>
+    <aluno>
+        <nome>Maria</nome>
+        <matricula>456</matricula>
+        <curso>EC</curso>
+    </aluno>
+    <aluno>
+        <nome>Carlos</nome>
+        <matricula>789</matricula>
+        <curso>CC</curso>
+    </aluno>
+</alunos>
