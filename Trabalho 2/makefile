@@ -10,17 +10,13 @@ C_SOURCE=$(wildcard ./src/*.c)
 H_SOURCE=$(wildcard ./hdr/*.h)
 
 # Arquivos objeto
-OBJ=$(subst .c,.o,$(subst source,objects,$(C_SOURCE)))
+OBJ=$(subst .c,.o,$(subst src,objects,$(C_SOURCE)))
 
 # Compilador
 CC=gcc
 
 # Flags (opções) para o compilador
-CC_FLAGS=-c         \
-         -W         \
-         -Wall      \
-         -ansi      \
-         -pedantic
+CC_FLAGS=-c -W -Wall -pedantic
 
 # Comando utilizado como target do clean
 RM = rm -rf
@@ -36,12 +32,12 @@ $(PROJ_NAME): $(OBJ)
 	@ echo 'Binário pronto!: $@'
 	@ echo ' '
 
-./objects/%.o: ./source/%.c ./source/%.h
+./objects/%.o: ./src/%.c ./hdr/%.h
 	@ echo 'Construindo target usando o compilador GCC: $<'
 	$(CC) $< $(CC_FLAGS) -o $@
 	@ echo ' '
 
-./objects/main.o: ./source/main.c $(H_SOURCE)
+./objects/main.o: ./main/main.c $(H_SOURCE)
 	@ echo 'Construindo target usando o compilador GCC: $<'
 	$(CC) $< $(CC_FLAGS) -o $@
 	@ echo ' '
@@ -54,4 +50,4 @@ clean:
 	@ rmdir objects
 
 .PHONY: all clean
-# Se existir algum arquivo com o mesmonome que uma tag, como clean.c ou all.c, ele ignora
+# Se existir algum arquivo com o mesmo nome que uma tag, como clean.c ou all.c, ele ignora
