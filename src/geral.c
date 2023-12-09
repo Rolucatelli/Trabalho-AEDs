@@ -40,13 +40,3 @@ void lerMenu(int *opcao)
     scanf("%d", opcao);
     printf("=====================================\n");
 }
-
-int criarProcessoManual()
-{
-    int qntd;
-    printf("=====================================\n");
-    printf("Digite quantos processos deseja criar inicialmente: ");
-    scanf("%d", &qntd);
-    printf("=====================================\n");
-    return qntd;
-}

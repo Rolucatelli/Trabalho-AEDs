@@ -26,13 +26,12 @@ void buscarLista(no *ptlista, int x, no **ant, no **pont)
     }
 }
 
-no *inserirLista(no *ptlista, no *novo_no)
+void inserirLista(no *ptlista, no *novo_no)
 {
     no *ant, *pont;
     buscarLista(ptlista, novo_no->id, &ant, &pont);
     novo_no->prox = ant->prox;
     ant->prox = novo_no;
-    return NULL;
 }
 
 no *removerLista(no *ptlista, int x)

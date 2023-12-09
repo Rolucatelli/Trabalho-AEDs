@@ -35,6 +35,4 @@ no *alocarNo(int *processosCriados);
 */
 void lerMenu(int *opcao);
 
-int criarProcessoManual();
-
 #endif
