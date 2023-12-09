@@ -9,10 +9,32 @@ typedef struct no_
     struct no_ *prox;
 } no;
 
+/*
+    @brief Gera um número aleatório entre 1 e 20
+    @return Número aleatório entre 1 e 20
+*/
 int gerarNumeroAleatorio();
+
+/*
+    @brief Verifica a chance de criar um processo
+    @return 1 30% das vezes, caso contrário, 0
+*/
 int tentarCriarProcesso();
+
+/*
+    @brief Cria um Nó
+    @param *processosCriados: Número do processo criado
+    @return Nó com id = argumento e tamanho = gerarNumeroAleatorio()
+*/
 no *alocarNo(int *processosCriados);
+
+/*
+    @brief Permite o usuário a escolher o método de escalonamento
+    @param *opcao: É a resposta do usuário
+    @return 0 = sair; 1 = FCFS; 2 = SJF; 3 = RoundRobin.
+*/
 void lerMenu(int *opcao);
+
 int criarProcessoManual();
 
 #endif

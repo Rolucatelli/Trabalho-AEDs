@@ -2,12 +2,7 @@
 #include <stdlib.h>
 #include "../hdr/geral.h"
 
-/*
-    @brief Gera um número aleatório entre 1 e 20
 
-    @return Número aleatório entre 1 e 20
-
-*/
 int gerarNumeroAleatorio()
 {
     int numero = (rand() % 20) + 1; // generate a number between 1 and 20
@@ -23,7 +18,6 @@ int tentarCriarProcesso()
     }
     return 0;
 }
-
 
 no *alocarNo(int *processosCriados)
 {

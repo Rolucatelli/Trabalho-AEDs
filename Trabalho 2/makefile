@@ -56,7 +56,7 @@ objFolder:
 	@ mkdir -p objects
 
 clean:
-	@ $(RM) ./objects/*.o $(PROJ_NAME) *~
+	@ $(RM) ./objects/*.o $(PROJ_NAME) $(DEBUG_NAME) *~
 	@ rmdir objects
 
 .PHONY: all clean
