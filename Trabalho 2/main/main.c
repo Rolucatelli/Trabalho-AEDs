@@ -20,7 +20,6 @@
 #include "../hdr/fcfs.h"
 #include "../hdr/fila.h"
 #include "../hdr/lista.h"
-#include "../hdr/roundRobin.h"
 #include "../hdr/sjf.h"
 #include "../hdr/geral.h"
 

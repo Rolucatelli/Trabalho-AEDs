@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../hdr/geral.h"
+#include "../hdr/fila.h"
 
 void fcfs()
 {
@@ -9,7 +10,7 @@ void fcfs()
     int numeroProcessos = criarProcessoManual();
     for (int i = 0; i < numeroProcessos; i++)
     {
-        inserirFila(&f, &r, alocarNo(processosCriados));
+        inserirFila(&f, &r, alocarNo(&processosCriados));
     }
     while (f != NULL)
     {
@@ -23,7 +24,7 @@ void fcfs()
         printf("Iterações executadas: %d\n\n", iTotal);
         if (tentarCriarProcesso())
         {
-            no *novoProcesso = alocarNo(processosCriados);
+            no *novoProcesso = alocarNo(&processosCriados);
             inserirFila(&f, &r, novoProcesso);
             printf("\n\n=====================================\n");
             printf("\tProcesso %d de tamanho %d criado!\n", novoProcesso->id, novoProcesso->tamanho);

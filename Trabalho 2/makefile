@@ -3,6 +3,9 @@
 # Nome do projeto
 PROJ_NAME=escalonador
 
+# Nome do arquivo de Debug
+DEBUG_NAME=escalonadorDebug
+
 # Arquivos .c
 C_SOURCE=$(wildcard ./src/*.c)
 
@@ -10,7 +13,7 @@ C_SOURCE=$(wildcard ./src/*.c)
 H_SOURCE=$(wildcard ./hdr/*.h)
 
 # Arquivos objeto
-OBJ=$(subst .c,.o,$(subst src,objects,$(C_SOURCE)))
+OBJ=$(subst .c,.o,$(subst src,objects,$(C_SOURCE) ./objects/main.c))
 
 # Compilador
 CC=gcc
@@ -25,6 +28,13 @@ RM = rm -rf
 # Compilação e linkagem #
 #########################
 all: objFolder $(PROJ_NAME)
+allDebug: objFolder $(DEBUG_NAME)
+
+$(DEBUG_NAME): $(OBJ)
+	@ echo 'Construindo arquivo de Debug usando o linker GCC: $@'
+	$(CC) $^ -g -o $@
+	@ echo 'Arquivo de Debug pronto!: $@'
+	@ echo ' '
 
 $(PROJ_NAME): $(OBJ)
 	@ echo 'Construindo o binário usando o linker GCC: $@'
