@@ -3,7 +3,7 @@
 #include "../hdr/geral.h"
 #include "../hdr/lista.h"
 
-void sjf()
+void roundRobin()
 {
     
 }

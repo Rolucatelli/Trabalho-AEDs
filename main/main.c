@@ -22,6 +22,7 @@
 #include "../hdr/lista.h"
 #include "../hdr/sjf.h"
 #include "../hdr/geral.h"
+#include "../hdr/roundRobin.h"
 
 
 int main()
@@ -49,6 +50,7 @@ int main()
     else if (opcao == 3)
     {
         // Round Robin
+        roundRobin();
     }
     else
     {
