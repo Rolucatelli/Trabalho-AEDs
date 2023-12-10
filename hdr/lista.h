@@ -4,13 +4,22 @@
 #include "../hdr/geral.h"
 
 /*
-    @brief Busca um elemento na lista
+    @brief Busca um elemento na lista pelo Id
     @param *ptlista Ponteiro para o inicio da lista
     @param x Id do elemento a ser buscado
     @param **ant Ponteiro para o nó anterior ao elemento buscado
     @param **pont Ponteiro para o elemento buscado
 */
 void buscarLista(no *ptlista, int x, no **ant, no **pont);
+
+/*
+    @brief Busca um elemento na lista pelo tamanho
+    @param *ptlista Ponteiro para o inicio da lista
+    @param x Id do elemento a ser buscado
+    @param **ant Ponteiro para o nó anterior ao elemento buscado
+    @param **pont Ponteiro para o elemento buscado
+*/
+void buscarListaTamanho(no *ptlista, int x, no **ant, no **pont);
 
 /*
     @brief Insere um novo nó na lista
