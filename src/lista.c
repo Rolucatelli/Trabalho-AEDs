@@ -26,10 +26,34 @@ void buscarLista(no *ptlista, int x, no **ant, no **pont)
     }
 }
 
+void buscarListaTamanho(no *ptlista, int x, no **ant, no **pont)
+{
+    *pont = NULL;
+    *ant = ptlista;
+    no *ptr = ptlista->prox;
+
+    while (ptr != NULL)
+    {
+        if (ptr->tamanho < x)
+        {
+            *ant = ptr;
+            ptr = ptr->prox;
+        }
+        else
+        {
+            if (ptr->tamanho == x)
+            {
+                *pont = ptr;
+            }
+            ptr = NULL; // break;
+        }
+    }
+}
+
 void inserirLista(no *ptlista, no *novo_no)
 {
     no *ant, *pont;
-    buscarLista(ptlista, novo_no->id, &ant, &pont);
+    buscarListaTamanho(ptlista, novo_no->tamanho, &ant, &pont);
     novo_no->prox = ant->prox;
     ant->prox = novo_no;
 }
