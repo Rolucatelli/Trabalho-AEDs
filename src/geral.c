@@ -5,7 +5,7 @@
 
 int gerarNumeroAleatorio()
 {
-    int numero = (rand() % 20) + 1; // generate a number between 1 and 20
+    int numero = (rand() % 20) + 1; // Gera um número aleatório entre 1 e 20
     return numero;
 }
 
