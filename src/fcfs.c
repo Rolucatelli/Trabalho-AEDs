@@ -4,7 +4,7 @@
 #include "../hdr/fila.h"
 
 void fcfs()
-{
+{git add src/fcfs.cgit add src/fcfs.c
     // Objetivos: criar uma função que simule o escalonamento de processos pelo método First Come, First Served
     // Essa função deve ficar em loop infinito, sendo interrompida somente se o usuário der CTRL+C no terminal
 
@@ -34,15 +34,15 @@ void fcfs()
             iteracoesTotal++;
             processoAtual->tamanho--;
         }
-        printf("O processo %d foi concluído.\n", processoAtual->id); //Já saiu do while, então o processo foi concluído
+        printf("O processo %d foi concluído.\n", processoAtual->id); // Já saiu do while, então o processo foi concluído
         printf("Iterações totais executadas: %d\n", iteracoesTotal); // Exibe o total de iterações executadas
         printf("==============================================\n");
-        
+
         // Agora, ao final da iteração haverá chance de 30% de criar um novo processo
         if (tentarCriarProcesso()) // Se conseguiu criar
         {
             no *novoProcesso = alocarNo(&processosCriados); // Aloca o novo processo
-            inserirFila(&f, &r, novoProcesso); // Insere o novo processo na fila
+            inserirFila(&f, &r, novoProcesso);              // Insere o novo processo na fila
             printf("O processo %d, com tamanho %d foi criado.\n", novoProcesso->id, novoProcesso->tamanho);
         }
     }
