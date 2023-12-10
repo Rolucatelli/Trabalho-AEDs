@@ -3,8 +3,7 @@
 #include "../hdr/geral.h"
 #include "../hdr/fila.h"
 
-void fcfs()
-{git add src/fcfs.cgit add src/fcfs.c
+void fcfs() {
     // Objetivos: criar uma função que simule o escalonamento de processos pelo método First Come, First Served
     // Essa função deve ficar em loop infinito, sendo interrompida somente se o usuário der CTRL+C no terminal
 
@@ -46,4 +45,4 @@ void fcfs()
             printf("O processo %d, com tamanho %d foi criado.\n", novoProcesso->id, novoProcesso->tamanho);
         }
     }
-}
+}git add src/fcfs.c
