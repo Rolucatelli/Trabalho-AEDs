@@ -23,7 +23,6 @@ void fcfs()
         {
             printf("Processo %d executando...\n", f->id);
             printf("Tamanho restante: %d\n", f->tamanho);
-            sleep(1);
             f->tamanho--;        // Diminui o tamanho do processo em uma iteração, já que cada loop do while é uma iteração
             if (f->tamanho == 0) // Se o processo acabou (ou quando o processo acabar)
             {
@@ -34,7 +33,6 @@ void fcfs()
         else
         {
             printf("Nenhum processo criado, aguarde até que outro processo seja criado\n");
-            sleep(1);
         }
     }
 }
