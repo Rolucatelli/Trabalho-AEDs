@@ -5,44 +5,36 @@
 
 void fcfs()
 {
-    int iteracoesTotal = 0, processosCriados = 0;
+    int processosCriados = 0;
     no *f = NULL, *r = NULL;
 
+    // Considera-se cada loop do while como uma iteração
     while (1)
     {
         if (tentarCriarProcesso()) // Se criar um processo
         {
-            r = alocarNo(&processosCriados);
-            processosCriados++;
+            no *processoAtual = alocarNo(&processosCriados); // Aloca um novo nó
+            inserirFila(&f, &r, processoAtual);              // Insere o nó na fila por meio da função inserirFila
 
-            printf("Processo %d criado com tamanho %d\n", r->id, r->tamanho);
+            printf("Processo %d criado com tamanho %d\n", processoAtual->id, processoAtual->tamanho);
 
-            printf("O processo %d está em execução\n", r->id);
-            while (iteracoesTotal < r->tamanho)
+            if (f != NULL) // Se o processo ainda não tiver acabado, f (primeiro da fila) não será NULL
             {
-                iteracoesTotal++;
-            }
-            printf("Processo %d finalizado\n", r->id);
-            printf("Iterações totais: %d\n", iteracoesTotal);
+                printf("O processo %d está em execução com tamanho %d\n", f->id, f->tamanho);
+                sleep(5);
+                f->tamanho--; // Diminui o tamanho do processo em uma iteração, já que cada loop do while é uma iteração
 
-            // Avança para o próximo nó na fila, se existir
-            if (r->prox != NULL)
-            {
-                // Avança para o próximo nó na fila
-                r = r->prox;
+                if (f->tamanho == 0) // Se o processo acabou (ou quando o processo acabar)
+                {
+                    printf("O processo %d foi finalizado\n", f->id);
+                    removerFila(&f, &r); // Remove o processo da fila por meio da função removerFila
+                }
             }
             else
             {
-                // Remove o processo da fila e libera a memória
-                removerFila(&f, &r);
-                free(r);
+                printf("Nenhum processo criado, aguarde até que outro processo seja criado\n");
+                sleep(5);
             }
         }
-        else
-        {
-            printf("Nenhum processo criado, aguarde até que outro processo seja criado\n");
-            sleep(5);
-        }
     }
-    printf("Foram criados %d processos\n", processosCriados);
 }
