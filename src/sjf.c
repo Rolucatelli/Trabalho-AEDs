@@ -3,6 +3,7 @@
 #include "../hdr/geral.h"
 #include "../hdr/lista.h"
 
+<<<<<<< HEAD
 void sjf(){ 
 
     int Processos = 0, tamanho = 0;                                         //Variável que será responsável em contar quantos processos foram criados.
@@ -31,4 +32,11 @@ void sjf(){
             printf("Nenhum processo foi criado nessa interação.\n");
         }
     }
+=======
+void sjf(int delay)
+{
+    // Objetivos: criar uma função que simule o escalonamento de processos pelo método Shortest Job First
+    // Essa função deve ficar em loop infinito, sendo interrompida somente se o usuário der CTRL+C no terminal
+    
+>>>>>>> 3259a785248ffba24080915f4bbcbecd65efe9fe
 }

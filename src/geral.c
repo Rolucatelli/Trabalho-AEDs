@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include "../hdr/geral.h"
 
-
 int gerarNumeroAleatorio()
 {
     int numero = (rand() % 20) + 1; // Gera um número aleatório entre 1 e 20
@@ -29,8 +28,13 @@ no *alocarNo(int *processosCriados)
     return retorno;
 }
 
-void lerMenu(int *opcao)
+void lerMenu(int *opcao, int *delay)
 {
+
+    printf("=====================================\n");
+    printf("Escolha o tempo, em segundos, entre mensagens:\n");
+    printf("(Caso não queira um tempo de espera, digite 0)\n");
+    scanf("%d", delay);
     printf("=====================================\n");
     printf("Escolha um método de escalonamento:\n");
     printf("0 - Sair\n");
@@ -39,4 +43,11 @@ void lerMenu(int *opcao)
     printf("3 - Round Robin\n");
     scanf("%d", opcao);
     printf("=====================================\n");
+}
+
+void limparArquivo(char *arquivo)
+{
+    FILE *temp = fopen(arquivo, "w+");
+    fprintf(temp, "");
+    fclose(temp);
 }

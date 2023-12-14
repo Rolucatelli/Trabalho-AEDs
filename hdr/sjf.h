@@ -2,6 +2,6 @@
 #define _H_SJF
 
 // Colocar o cabecalho das funções aqui
-void sjf();
+void sjf(int delay);
 
 #endif

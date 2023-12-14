@@ -33,6 +33,8 @@ no *alocarNo(int *processosCriados);
     @param *opcao: É a resposta do usuário
     @return 0 = sair; 1 = FCFS; 2 = SJF; 3 = RoundRobin.
 */
-void lerMenu(int *opcao);
+void lerMenu(int *opcao, int *delay);
+
+void limparArquivo(char *arquivo);
 
 #endif

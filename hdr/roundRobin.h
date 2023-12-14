@@ -2,6 +2,6 @@
 #define _H_ROUNDROBIN
 
 // Colocar o cabecalho das funções aqui
-void roundRobin();
+void roundRobin(int delay);
 
 #endif
