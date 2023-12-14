@@ -28,9 +28,10 @@
 int main()
 {
     int opcao = 1;
+    int delay = 0;
     srand(time(NULL));
 
-    lerMenu(&opcao);
+    lerMenu(&opcao, &delay);
 
     if (opcao == 0)
     {
@@ -40,17 +41,17 @@ int main()
     else if (opcao == 1)
     {
         // First Come, First Served
-        fcfs();
+        fcfs(delay);
     }
     else if (opcao == 2)
     {
         // Shortest Job First
-        sjf();
+        sjf(delay);
     }
     else if (opcao == 3)
     {
         // Round Robin
-        roundRobin();
+        roundRobin(delay);
     }
     else
     {

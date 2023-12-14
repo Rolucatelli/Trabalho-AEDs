@@ -2,6 +2,6 @@
 #define _H_FCFS
 
 // Colocar o cabecalho das funções aqui
-void fcfs();
+void fcfs(int delay);
 
 #endif
