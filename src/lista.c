@@ -114,20 +114,6 @@ void imprimirLista(no *ptlista)
     }
 }
 
-// void trocarNos(no *ptLista, no *no1, no *no2)
-// {
-//     no *ant1, *ant2;
-//     buscarLista(ptLista, no1->id, &ant1, &no1);
-//     buscarLista(ptLista, no2->id, &ant2, &no2);
-
-//     no *temp = no1->prox;
-//     no1->prox = no2->prox;
-//     no2->prox = temp;
-//     ant2->prox = no1;
-//     ant1->prox = no2;
-
-// }
-
 void ordenaListaTam(no **ptLista)
 {
     no *pTemp = malloc(sizeof(no));

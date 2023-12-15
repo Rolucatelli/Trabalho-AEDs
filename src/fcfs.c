@@ -6,12 +6,14 @@
 void fcfs(int delay)
 {
     int processosCriados = 0;
+    // Se existir algo no arquivo, a função vai apagar
     limparArquivo("exe/logs/fcfsLog");
     no *f = NULL, *r = NULL;
 
     // Considera-se cada loop do while como uma iteração
     while (1)
     {
+        // Abrindo o arquivo de log
         FILE *arquivo = fopen("exe/logs/fcfsLog", "a");
         if (tentarCriarProcesso()) // Se criar um processo
         {
@@ -36,6 +38,7 @@ void fcfs(int delay)
             {
                 printf("\033[0;32mProcesso %d finalizado!\033[0m\n", f->id);
                 fprintf(arquivo, "\n==================== Processo %d finalizado! ====================\n\n", f->id);
+                // Esperando o tempo
                 sleep(delay);
 
                 removerFila(&f, &r); // Remove o processo da fila por meio da função removerFila
@@ -46,9 +49,11 @@ void fcfs(int delay)
             printf("Nenhum processo criado, aguarde até que outro processo seja criado\n");
             fputs("Nenhum processo criado, aguarde até que outro processo seja criado\n", arquivo);
 
+            // Esperando o tempo
             sleep(delay);
         }
 
+        // Fecha o arquivo para salvar o que foi escrito
         fclose(arquivo);
     }
 }

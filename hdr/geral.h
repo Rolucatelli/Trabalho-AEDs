@@ -1,7 +1,6 @@
 #ifndef _H_GERAL
 #define _H_GERAL
 
-// Colocar o cabecalho das funções aqui
 typedef struct no_
 {
     int id;
@@ -35,6 +34,10 @@ no *alocarNo(int *processosCriados);
 */
 void lerMenu(int *opcao, int *delay);
 
+/*
+    @brief Cria / Limpa o conteúdo de um arquivo
+    @param *arquivo: O nome do arquivo
+*/
 void limparArquivo(char *arquivo);
 
 #endif

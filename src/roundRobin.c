@@ -7,33 +7,47 @@
 void roundRobin(int delay)
 {
     int processosCriados = 0;
+
+    // Se existir algo no arquivo, a função vai apagar
     limparArquivo("exe/logs/roundRobinLog");
+
+    // Criando a estrutura de lista
     no *ptLista = malloc(sizeof(no));
     ptLista->prox = NULL;
 
     // Considera-se cada loop do while como uma iteração
     while (1)
     {
+        // Abrindo o arquivo de log
         FILE *arquivo = fopen("exe/logs/roundRobinLog", "a");
         no *primeiroNo = ptLista->prox;
 
+        // Contando o tempo de um Quantum
         for (int i = 0; i < QUANTUM; i++)
         {
+            // Atualizando o primeiroNo
             primeiroNo = ptLista->prox;
 
-            if (tentarCriarProcesso()) // Se criar um processo
+            // Se criar um processo
+            if (tentarCriarProcesso())
             {
+                // Se for o primeiro processo, reseta o Quantum
                 if (ptLista->prox == NULL)
                     i = 0;
-                no *processoAtual = alocarNo(&processosCriados); // Aloca um novo nó
-                inserirListaFim(ptLista, processoAtual);         // Insere o nó na fila por meio da função inserirFila
+                // Aloca um novo nó
+                no *processoAtual = alocarNo(&processosCriados); 
+                // Insere o nó no fim da lista
+                inserirListaFim(ptLista, processoAtual);         
 
                 printf("\033[0;34mProcesso %d de tamanho %d criado!\033[0m\n", processoAtual->id, processoAtual->tamanho);
                 fprintf(arquivo, "\n\tProcesso %d de tamanho %d criado!\n\n", processoAtual->id, processoAtual->tamanho);
+
+                // Atualizando o primeiroNo
                 primeiroNo = ptLista->prox;
             }
 
-            if (primeiroNo != NULL) // Se o processo ainda não tiver acabado, f (primeiro da fila) não será NULL
+            // Se houver algum processo na lista
+            if (primeiroNo != NULL)
             {
                 printf("Processo %d executando...\n", primeiroNo->id);
                 fprintf(arquivo, "Processo %d executando...\n", primeiroNo->id);
@@ -41,15 +55,18 @@ void roundRobin(int delay)
                 printf("Tamanho restante: %d\n", primeiroNo->tamanho);
                 fprintf(arquivo, "Tamanho restante: %d\n", primeiroNo->tamanho);
 
+                // Esperando o tempo
                 sleep(delay);
-                primeiroNo->tamanho--; // Diminui o tamanho do processo em uma iteração, já que cada loop do while é uma iteração
+                primeiroNo->tamanho--;
 
-                if (primeiroNo->tamanho == 0) // Se o processo acabou (ou quando o processo acabar)
+                if (primeiroNo->tamanho == 0)
                 {
                     printf("\033[0;32mProcesso %d finalizado!\033[0m\n", primeiroNo->id);
                     fprintf(arquivo, "\n==================== Processo %d finalizado! ====================\n\n", primeiroNo->id);
+                    // Esperando o tempo
                     sleep(delay);
-                    break;
+                    // Break
+                    i = QUANTUM;
                 }
             }
             else
@@ -61,15 +78,19 @@ void roundRobin(int delay)
             }
         }
 
+        // Se houver algum processo na lista
         if (primeiroNo != NULL)
         {
+
             primeiroNo = removerLista(ptLista, primeiroNo->id);
+            // Se o processo ainda não foi terminado
             if (primeiroNo->tamanho != 0)
             {
                 inserirListaFim(ptLista, primeiroNo);
             }
         }
 
+        // Fecha o arquivo para salvar o que foi escrito
         fclose(arquivo);
     }
 }

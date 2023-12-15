@@ -59,7 +59,10 @@ no *removerLista(no *ptlista, int x);
 */
 void imprimirLista(no *ptlista);
 
-
+/*
+    @brief Ordena a lista por tamanho
+    @param **ptLista: Um ponteiro pra o ptLista
+*/
 void ordenaListaTam(no **ptLista);
 
 #endif

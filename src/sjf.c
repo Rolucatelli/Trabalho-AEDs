@@ -7,6 +7,7 @@ void sjf(int delay)
 {
 
     int processosCriados = 0;
+    // Se existir algo no arquivo, a função vai apagar
     limparArquivo("exe/logs/sjfLog");
     no *ptLista = malloc(sizeof(no)); // Criando uma ptlista para alocar os processos.
     ptLista->prox = NULL;
@@ -14,6 +15,7 @@ void sjf(int delay)
     // Considera-se cada loop do while como uma iteração
     while (1)
     {
+        // Abrindo o arquivo de log
         FILE *arquivo = fopen("exe/logs/sjfLog", "a");
         no *primeiroNo = ptLista->prox;
         if (tentarCriarProcesso()) // Se criar um processo
@@ -33,6 +35,7 @@ void sjf(int delay)
             printf("Tamanho restante: %d\n", primeiroNo->tamanho);
             fprintf(arquivo, "Tamanho restante: %d\n", primeiroNo->tamanho);
 
+            // Esperando o tempo
             sleep(delay);
             primeiroNo->tamanho--;        // Diminui o tamanho do processo em uma iteração, já que cada loop do while é uma iteração
             if (primeiroNo->tamanho == 0) // Se o processo acabou (ou quando o processo acabar)
@@ -49,9 +52,11 @@ void sjf(int delay)
             printf("Nenhum processo criado, aguarde até que outro processo seja criado\n");
             fputs("Nenhum processo criado, aguarde até que outro processo seja criado\n", arquivo);
 
+            // Esperando o tempo
             sleep(delay);
         }
 
+        // Fecha o arquivo para salvar o que foi escrito
         fclose(arquivo);
     }
 }
