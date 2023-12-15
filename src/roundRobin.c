@@ -6,8 +6,6 @@
 
 void roundRobin(int delay)
 {
-    // Objetivos: criar uma função que simule o escalonamento de processos pelo método Round Robin
-    // Essa função deve ficar em loop infinito, sendo interrompida somente se o usuário der CTRL+C no terminal
     int processosCriados = 0;
     limparArquivo("exe/logs/roundRobinLog");
     no *ptLista = malloc(sizeof(no));

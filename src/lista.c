@@ -110,7 +110,7 @@ void imprimirLista(no *ptlista)
         ptlista = ptlista->prox;
         printf(" -> ");
         if (ptlista == NULL)
-            printf("NULL");
+            printf("NULL\n");
     }
 }
 
@@ -124,11 +124,28 @@ void imprimirLista(no *ptlista)
 //     no1->prox = no2->prox;
 //     no2->prox = temp;
 //     ant2->prox = no1;
-//     ant1->prox = no2;   
-
-
-// }
-// void ordenaLista(no *ptLista)
-// {
+//     ant1->prox = no2;
 
 // }
+
+void ordenaListaTam(no **ptLista)
+{
+    no *pTemp = malloc(sizeof(no));
+    pTemp->prox = NULL;
+    if ((*ptLista)->prox != NULL)
+    {
+        int i = (*ptLista)->prox->id;
+        no *aux = removerLista(*ptLista, i);
+        while (aux != NULL)
+        {
+            inserirListaTamanho(pTemp, aux);
+            if ((*ptLista)->prox != NULL)
+            {
+                i = (*ptLista)->prox->id;
+            }
+            aux = removerLista(*ptLista, i);
+        }
+        (*ptLista)->prox = pTemp->prox;
+    }
+    free(pTemp);
+}

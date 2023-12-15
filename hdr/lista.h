@@ -59,4 +59,7 @@ no *removerLista(no *ptlista, int x);
 */
 void imprimirLista(no *ptlista);
 
+
+void ordenaListaTam(no **ptLista);
+
 #endif
