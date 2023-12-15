@@ -19,3 +19,4 @@
 ### Sistema Operacional: Windows 10
 
 O objetivo desse trabalho é simular métodos de escalonamento de processos em um sistema operacional. Os métodos implementados foram: FCFS, SJF, Round Robin.
+Para compilar o código, basta executar o comando `make all` no terminal. Para executar o código, basta executar o comando `make run` no terminal. Para limpar os arquivos gerados pela compilação, basta executar o comando `make clean` no terminal.

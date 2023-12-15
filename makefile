@@ -29,6 +29,8 @@ RM = rm -rf
 #########################
 all: objFolder exeFolder $(PROJ_NAME)
 debug: objFolder exeFolder $(DEBUG_NAME)
+run:
+	@ ./exe/escalonador
 
 $(DEBUG_NAME): $(OBJ)
 	@ echo 'Construindo arquivo de Debug usando o linker GCC: $@'
