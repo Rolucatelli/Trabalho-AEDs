@@ -9,7 +9,7 @@ void sjf(int delay)
     int processosCriados = 0;
     // Se existir algo no arquivo, a função vai apagar
     limparArquivo("exe/logs/sjfLog");
-    no *ptLista = malloc(sizeof(no)); // Criando uma ptlista para alocar os processos.
+    no *ptLista = malloc(sizeof(no)); // Criando uma estrutura para alocar os processos.
     ptLista->prox = NULL;
 
     // Considera-se cada loop do while como uma iteração
@@ -21,13 +21,13 @@ void sjf(int delay)
         if (tentarCriarProcesso()) // Se criar um processo
         {
             no *processoAtual = alocarNo(&processosCriados); // Aloca um novo nó
-            inserirListaFim(ptLista, processoAtual);         // Insere o nó no final lista por meio da função inserirListaFim
+            inserirListaFim(ptLista, processoAtual);         // Insere o nó no final da lista por meio da função inserirListaFim
 
             printf("\033[0;34mProcesso %d de tamanho %d criado!\033[0m\n", processoAtual->id, processoAtual->tamanho);
             fprintf(arquivo, "\n\tProcesso %d de tamanho %d criado!\n\n", processoAtual->id, processoAtual->tamanho);
         }
 
-        if (primeiroNo != NULL) // Se o processo ainda não tiver acabado, primeiroNo (primeiro no da lista) não será NULL
+        if (primeiroNo != NULL) // Se houver um processo na lista
         {
             printf("Processo %d executando...\n", primeiroNo->id);
             fprintf(arquivo, "Processo %d executando...\n", primeiroNo->id);
