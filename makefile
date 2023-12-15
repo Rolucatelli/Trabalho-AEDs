@@ -27,18 +27,18 @@ RM = rm -rf
 #########################
 # Compilação e linkagem #
 #########################
-all: objFolder $(PROJ_NAME)
-debug: objFolder $(DEBUG_NAME)
+all: objFolder exeFolder $(PROJ_NAME)
+debug: objFolder exeFolder $(DEBUG_NAME)
 
 $(DEBUG_NAME): $(OBJ)
 	@ echo 'Construindo arquivo de Debug usando o linker GCC: $@'
-	$(CC) $^ -o $@ -g
+	$(CC) $^ -o ./exe/$@ -g
 	@ echo 'Arquivo de Debug pronto!: $@'
 	@ echo ' '
 
 $(PROJ_NAME): $(OBJ)
 	@ echo 'Construindo o binário usando o linker GCC: $@'
-	$(CC) $^ -o $@
+	$(CC) $^ -o ./exe/$@
 	@ echo 'Binário pronto!: $@'
 	@ echo ' '
 
@@ -55,9 +55,12 @@ $(PROJ_NAME): $(OBJ)
 objFolder:
 	@ mkdir -p objects
 
+exeFolder:
+	@ mkdir -p exe ./exe/logs
+
 clean:
-	@ $(RM) ./objects/*.o $(PROJ_NAME) $(DEBUG_NAME) *~
-	@ rmdir objects
+	@ $(RM) ./objects/*.o ./exe/* *~
+	@ rmdir objects exe
 
 .PHONY: all clean
 # Se existir algum arquivo com o mesmo nome que uma tag, como clean.c ou all.c, ele ignora

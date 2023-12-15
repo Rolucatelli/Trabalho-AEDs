@@ -6,23 +6,22 @@
 void fcfs(int delay)
 {
     int processosCriados = 0;
-    limparArquivo("fcfsLog"); 
+    limparArquivo("exe/logs/fcfsLog");
     no *f = NULL, *r = NULL;
 
     // Considera-se cada loop do while como uma iteração
     while (1)
     {
-        FILE *arquivo = fopen("fcfsLog", "a");
+        FILE *arquivo = fopen("exe/logs/fcfsLog", "a");
         if (tentarCriarProcesso()) // Se criar um processo
         {
             no *processoAtual = alocarNo(&processosCriados); // Aloca um novo nó
             inserirFila(&f, &r, processoAtual);              // Insere o nó na fila por meio da função inserirFila
 
             printf("\033[0;34mProcesso %d de tamanho %d criado!\033[0m\n", processoAtual->id, processoAtual->tamanho);
-            fprintf(arquivo, "\tProcesso %d de tamanho %d criado!\n", processoAtual->id, processoAtual->tamanho);
-            
+            fprintf(arquivo, "\n\tProcesso %d de tamanho %d criado!\n\n", processoAtual->id, processoAtual->tamanho);
         }
-    
+
         if (f != NULL) // Se o processo ainda não tiver acabado, f (primeiro da fila) não será NULL
         {
             printf("Processo %d executando...\n", f->id);
@@ -36,7 +35,7 @@ void fcfs(int delay)
             if (f->tamanho == 0) // Se o processo acabou (ou quando o processo acabar)
             {
                 printf("\033[0;32mProcesso %d finalizado!\033[0m\n", f->id);
-                fprintf(arquivo, "Processo %d finalizado!\n", f->id);
+                fprintf(arquivo, "\n==================== Processo %d finalizado! ====================\n\n", f->id);
                 sleep(delay);
 
                 removerFila(&f, &r); // Remove o processo da fila por meio da função removerFila
@@ -49,7 +48,7 @@ void fcfs(int delay)
 
             sleep(delay);
         }
+
         fclose(arquivo);
     }
-    
 }

@@ -48,6 +48,10 @@ void lerMenu(int *opcao, int *delay)
 void limparArquivo(char *arquivo)
 {
     FILE *temp = fopen(arquivo, "w+");
+    if (temp == NULL)
+    {
+        return;
+    }    
     fprintf(temp, "");
     fclose(temp);
 }
