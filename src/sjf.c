@@ -8,7 +8,7 @@ void sjf(int delay){
     // Objetivos: criar uma função que simule o escalonamento de processos pelo método Round Robin
     // Essa função deve ficar em loop infinito, sendo interrompida somente se o usuário der CTRL+C no terminal
 
-    int processosCriados = 0;                                               //Variável que será responsável em contar quantos processos foram criados e outra variável para contar o tamanho.
+    int processosCriados = 0, tamanho = 0;                                  //Variável que será responsável em contar quantos processos foram criados e outra variável para contar o tamanho.
     limparArquivo("exe/logs/sjfLog");
     no *ptlista = malloc(sizeof(no));                                       //Criando uma ptlista para alocar os processos.
     ptlista->prox = NULL;
@@ -27,6 +27,7 @@ void sjf(int delay){
             if(noatual != NULL){                                            //Verificação se o processo ainda não terminou.
                 printf("Processo ainda em execução, interações restasntes: %d.\n", noatual->tamanho);
                 noatual->tamanho--;                                         //Redução no tamanho da quantidade de interações restantes do processo.
+                tamanho++;                                                  //Variável para saber o tamanho do processo.
                 sleep(delay);
                 if(noatual->tamanho == 0){                                  //Verificando se o processo chegou ao fim.
                     printf("\033[0;32m Processo: %d foi finalizado com sucesso!\033[0m\n", noatual->id);
@@ -42,7 +43,7 @@ void sjf(int delay){
         if(noatual != NULL){                                                //Verificão se ocorreu interação.
             no *aux = ptlista->prox;                                        //Variável auxiliar ao processo de ordenação.
             no *ant = ptlista;                                              //Variável responsável por saber o nó anterior à incrementação.
-            while(noatual->tamanho > aux->tamanho || aux != NULL){          //Enquanto o tamanho do no atual for maior do que o nó na fila, acontecerá incrementação.
+            while(tamanho > aux->tamanho || aux != NULL){                   //Enquanto o tamanho do no atual for maior do que o nó na fila, acontecerá incrementação.
                 ant = aux;                                                  //Incrementação.
                 aux = aux->prox;                                            //Incrementação.
             }
