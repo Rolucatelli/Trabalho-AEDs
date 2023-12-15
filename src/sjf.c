@@ -19,13 +19,13 @@ void sjf(int delay)
         if (tentarCriarProcesso()) // Se criar um processo
         {
             no *processoAtual = alocarNo(&processosCriados); // Aloca um novo nó
-            inserirListaFim(ptLista, processoAtual);         // Insere o nó na fila por meio da função inserirFila
+            inserirListaFim(ptLista, processoAtual);         // Insere o nó no final lista por meio da função inserirListaFim
 
             printf("\033[0;34mProcesso %d de tamanho %d criado!\033[0m\n", processoAtual->id, processoAtual->tamanho);
             fprintf(arquivo, "\n\tProcesso %d de tamanho %d criado!\n\n", processoAtual->id, processoAtual->tamanho);
         }
 
-        if (primeiroNo != NULL) // Se o processo ainda não tiver acabado, f (primeiro da fila) não será NULL
+        if (primeiroNo != NULL) // Se o processo ainda não tiver acabado, primeiroNo (primeiro no da lista) não será NULL
         {
             printf("Processo %d executando...\n", primeiroNo->id);
             fprintf(arquivo, "Processo %d executando...\n", primeiroNo->id);
@@ -40,8 +40,8 @@ void sjf(int delay)
                 printf("\033[0;32mProcesso %d finalizado!\033[0m\n", primeiroNo->id);
                 fprintf(arquivo, "\n==================== Processo %d finalizado! ====================\n\n", primeiroNo->id);
                 sleep(delay);
-                removerLista(ptLista, primeiroNo->id); // Remove o processo da fila por meio da função removerFila
-                ordenaListaTam(&ptLista);
+                removerLista(ptLista, primeiroNo->id); // Remove o processo da lista por meio da função removerLista
+                ordenaListaTam(&ptLista);              //Ordena lista por ordem de tamanho
             }
         }
         else
