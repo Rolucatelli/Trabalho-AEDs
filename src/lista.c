@@ -50,12 +50,31 @@ void buscarListaTamanho(no *ptlista, int x, no **ant, no **pont)
     }
 }
 
-void inserirLista(no *ptlista, no *novo_no)
+void inserirListaTamanho(no *ptlista, no *novo_no)
 {
     no *ant, *pont;
     buscarListaTamanho(ptlista, novo_no->tamanho, &ant, &pont);
     novo_no->prox = ant->prox;
     ant->prox = novo_no;
+}
+
+void inserirListaId(no *ptlista, no *novo_no)
+{
+    no *ant, *pont;
+    buscarLista(ptlista, novo_no->id, &ant, &pont);
+    novo_no->prox = ant->prox;
+    ant->prox = novo_no;
+}
+
+void inserirListaFim(no *ptlista, no *novo_no)
+{
+    no *ant = ptlista;
+    while (ant->prox != NULL)
+    {
+        ant = ant->prox;
+    }
+    ant->prox = novo_no;
+    novo_no->prox = NULL;
 }
 
 no *removerLista(no *ptlista, int x)
@@ -94,3 +113,22 @@ void imprimirLista(no *ptlista)
             printf("NULL");
     }
 }
+
+// void trocarNos(no *ptLista, no *no1, no *no2)
+// {
+//     no *ant1, *ant2;
+//     buscarLista(ptLista, no1->id, &ant1, &no1);
+//     buscarLista(ptLista, no2->id, &ant2, &no2);
+
+//     no *temp = no1->prox;
+//     no1->prox = no2->prox;
+//     no2->prox = temp;
+//     ant2->prox = no1;
+//     ant1->prox = no2;   
+
+
+// }
+// void ordenaLista(no *ptLista)
+// {
+
+// }

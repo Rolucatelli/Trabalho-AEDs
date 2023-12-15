@@ -22,12 +22,28 @@ void buscarLista(no *ptlista, int x, no **ant, no **pont);
 void buscarListaTamanho(no *ptlista, int x, no **ant, no **pont);
 
 /*
-    @brief Insere um novo nó na lista
+    @brief Insere um novo nó na lista por ordem de tamanho
     @param *ptlista Ponteiro para o inicio da lista
     @param *novo_no Ponteiro para o novo nó
     @return Nada, pois é possível que haja nós repetidos na lista
 */
-no *inserirLista(no *ptlista, no *novo_no);
+no *inserirListaTamanho(no *ptlista, no *novo_no);
+
+/*
+    @brief Insere um novo nó na lista por ordem de id
+    @param *ptlista Ponteiro para o inicio da lista
+    @param *novo_no Ponteiro para o novo nó
+    @return Nada, pois é possível que haja nós repetidos na lista
+*/
+no *inserirListaId(no *ptlista, no *novo_no);
+
+/*
+    @brief Insere um novo nó no fim da lista
+    @param *ptlista Ponteiro para o inicio da lista
+    @param *novo_no Ponteiro para o novo nó
+    @return Nada, pois é possível que haja nós repetidos na lista
+*/
+no *inserirListaFim(no *ptlista, no *novo_no);
 
 /*
     @brief Remove um elemento da lista

@@ -37,6 +37,7 @@ void fcfs(int delay)
             {
                 printf("\033[0;32mProcesso %d finalizado!\033[0m\n", f->id);
                 fprintf(arquivo, "Processo %d finalizado!\n", f->id);
+                sleep(delay);
 
                 removerFila(&f, &r); // Remove o processo da fila por meio da função removerFila
             }
